@@ -1,5 +1,7 @@
 <template>
-  <TaskList></TaskList>
+  <div class="section-contained">
+    <TaskList></TaskList>
+  </div>
 </template>
 
 <script>
@@ -11,3 +13,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .section-contained {
+    padding: 50px 0;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+</style>
