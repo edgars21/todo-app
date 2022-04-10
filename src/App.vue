@@ -4,8 +4,8 @@
 
 <script>
 import addTestTasks from "./addTestTasks";
-import { useStore } from 'vuex'
-import MainLayout from './components/MainLayout'
+import { useStore } from 'vuex';
+import MainLayout from './components/MainLayout';
 
 export default {
   components: {

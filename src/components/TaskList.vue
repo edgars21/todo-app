@@ -4,23 +4,30 @@
         <SingleTask :task-data="task"></SingleTask>      
       </div>
     </div>
+    <button @click="openForm = true">Add new task</button>
+    <AddTaskForm @closed="openForm = false" :is-open="openForm"></AddTaskForm>
 </template>
 
 <script>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import SingleTask from './SingleTask'
+import AddTaskForm from './AddTaskForm'
 
 export default {
   components: {
-    SingleTask
+    SingleTask,
+    AddTaskForm
   },
 
   setup () {
     const store = useStore();
     const TaskList = computed(() => store.state.taskList);
+    const openForm = ref(false);
+
     return {
       TaskList,
+      openForm,
     }
   }
 }

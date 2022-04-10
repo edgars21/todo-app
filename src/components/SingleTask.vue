@@ -28,7 +28,7 @@
 
 <script>
 import { ref } from "vue";
-import PrioritySelector from './PrioritySelector'
+import PrioritySelector from './PrioritySelector';
 
 export default {
     components: {
@@ -54,6 +54,7 @@ export default {
 }
 
 .SingleTask__title {
+    padding-right: 20px;
     flex-grow: 1;
 }
 
