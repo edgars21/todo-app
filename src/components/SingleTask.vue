@@ -1,7 +1,8 @@
 <template>
-    <div class="SingleTask" :class="{isShowFull: taskExpanded}">
+    <div class="SingleTask" :class="{isShowFull: taskExpanded, isDone: taskData.archived}">
         <div class="SingleTask__visible">
             <div class="SingleTask__heading">
+                <div @click="handleDoneTask" class="SingleTask__done"></div>
                 <div class="SingleTask__title" @click="taskExpanded = !taskExpanded">{{ taskData.title }}</div>
                 <div class="SingleTask__priority">
                     <template v-if="taskData.priority">
@@ -12,17 +13,19 @@
             </div> 
         </div>
         <div class="SingleTask__hidden">
-             <div class="SingleTask__subTitle">{{ taskData.subTitle }}</div>
-             <div class="SingleTask__notes">
-                <textarea class="SingleTask__notesInput" :value="taskData.notes"></textarea>
-             </div>
-             <div class="SingleTask__actions">
-                 <div class="SingleTask__btWrap">
-                    <button class="SingleTask__bt SingleTask__btDelete" @click="handleDelete">Delete</button> 
-                    <button class="SingleTask__bt SingleTask__btCancel" @click="taskExpanded = !taskExpanded">Cancel</button>
-                    <button class="SingleTask__bt SingleTask__btSave">Save</button>
-                 </div>
-             </div>
+            <div class="SingleTask__subTitle">
+                {{ taskData.subTitle }}
+            </div>
+            <div class="SingleTask__notes">
+            <textarea class="SingleTask__notesInput" :value="taskData.notes"></textarea>
+            </div>
+            <div class="SingleTask__actions">
+                <div class="SingleTask__btWrap">
+                <button class="SingleTask__bt SingleTask__btDelete" @click="handleDelete">Delete</button> 
+                <button class="SingleTask__bt SingleTask__btCancel" @click="taskExpanded = !taskExpanded">Cancel</button>
+                <button class="SingleTask__bt SingleTask__btSave">Save</button>
+                </div>
+            </div>
         </div>        
     </div>
 </template>
@@ -47,9 +50,18 @@ export default {
             store.commit('removeTask', props.taskData);
         }
 
+        function handleDoneTask() {
+            if (props.taskData.archived === true) {
+                store.commit('unArchiveTask', props.taskData);
+            } else {
+                store.commit('archiveTask', props.taskData);
+            }
+        }
+
         return {
             taskExpanded,
-            handleDelete
+            handleDelete,
+            handleDoneTask,
         }
     }
 }
@@ -93,6 +105,11 @@ export default {
     width: 100%;
     height: 100px;
     box-sizing: border-box;
+    padding: 5px 10px;
+}
+
+.SingleTask__actions {
+    margin-top: 10px;
 }
 
 .SingleTask__btWrap {
@@ -157,5 +174,36 @@ export default {
 
 .SingleTask.isShowFull .SingleTask__priorityLabel {
      visibility: visible;
+}
+
+.SingleTask__done {
+    width: 15px;
+    height: 15px;
+    border: 1px solid gray;
+    border-radius: 50%;
+    margin-right: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.SingleTask__done:hover {
+    border-color: #9FC088;
+}
+
+.SingleTask.isDone .SingleTask__done {
+    background-color: #9FC088;
+}
+
+.SingleTask.isDone .SingleTask__done::after {
+    content: "✓";
+    display: block;
+    color: #ffffff;
+    font-size: 12px;
+}
+
+.SingleTask.isDone .SingleTask__title {
+    text-decoration: line-through;
+    opacity: 0.8;
 }
 </style>

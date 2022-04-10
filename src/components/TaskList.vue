@@ -1,12 +1,18 @@
 <template>
     <div class="TaskList">
-      <div v-for="(task, idx) in TaskList" :key="idx" class="TaskList__singleTask">
+      <div v-for="(task, idx) in activeTasks" :key="idx" class="TaskList__singleTask">
         <SingleTask :task-data="task"></SingleTask>      
       </div>
     </div>
     <div class="AddNewTask">
       <button class="AddNewTask__bt" @click="openForm = true">Add new task</button>
     </div>
+    <div class="DoneTaskList">
+      <h2>Done tasks:</h2>
+      <div v-for="(task, idx) in doneTasks" :key="idx" class="DoneTaskList__singleTask">
+        <SingleTask :task-data="task"></SingleTask>      
+      </div>
+    </div>    
     <AddTaskForm @closed="openForm = false" :is-open="openForm"></AddTaskForm>
 </template>
 
@@ -24,12 +30,20 @@ export default {
 
   setup () {
     const store = useStore();
-    const TaskList = computed(() => store.state.taskList);
+    const taskList = computed(() => store.state.taskList);
     const openForm = ref(false);
+    const activeTasks = computed(() => {
+      return taskList.value.filter((task) => task.archived !== true) 
+    });
+    const doneTasks = computed(() => {
+      return taskList.value.filter((task) => task.archived === true) 
+    });    
 
     return {
-      TaskList,
+      taskList,
       openForm,
+      activeTasks,
+      doneTasks,
     }
   }
 }
@@ -38,6 +52,14 @@ export default {
 <style>
 .TaskList__singleTask:not(:last-child) {
   border-bottom: 1px solid #D3D3D3;
+}
+
+.DoneTaskList__singleTask:not(:last-child) {
+  border-bottom: 1px solid #D3D3D3;
+}
+
+.DoneTaskList {
+  margin-top: 50px;
 }
 
 .AddNewTask__bt {

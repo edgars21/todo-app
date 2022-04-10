@@ -18,7 +18,15 @@ const store = createStore({
       if (index !== -1) {
         state.taskList.splice(index, 1);
       }
-    }    
+    },
+    
+    archiveTask(state, task) {
+        task.archived = true;
+    },
+    
+    unArchiveTask(state, task) {
+      task.archived = null;
+    }      
   }
 })
 
