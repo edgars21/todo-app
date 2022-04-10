@@ -77,7 +77,7 @@ export default {
 
 
         function handleSubmit() {
-             store.commit('addTask', formData.value);
+            store.commit('addTask', formData.value);
         }
 
         function handleCloseFromOutside() {

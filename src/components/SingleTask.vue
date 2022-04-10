@@ -29,6 +29,7 @@
 
 <script>
 import { ref } from "vue";
+import { useStore } from 'vuex'
 import PrioritySelector from './PrioritySelector';
 
 export default {
@@ -38,11 +39,17 @@ export default {
 
     props: ["task-data"],
 
-    setup() {
+    setup(props) {
+        const store = useStore();
         const taskExpanded = ref(false);
 
+        function handleDelete() {
+            store.commit('removeTask', props.taskData);
+        }
+
         return {
-            taskExpanded
+            taskExpanded,
+            handleDelete
         }
     }
 }
