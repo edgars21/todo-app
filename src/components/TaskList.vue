@@ -5,7 +5,7 @@
       </div>
     </div>
     <div class="AddNewTask">
-      <button class="AddNewTask__bt" @click="openForm = true">Add new task</button>
+      <button class="AddNewTask__bt" @click="handleAddTask">Add new task</button>
     </div>
     <div class="DoneTaskList">
       <h2>Done tasks:</h2>
@@ -13,7 +13,7 @@
         <SingleTask :task-data="task"></SingleTask>      
       </div>
     </div>    
-    <AddTaskForm @closed="openForm = false" :is-open="openForm"></AddTaskForm>
+    <AddTaskForm @closed="openForm = false" :is-open="openForm" :sub-task="openFormSubTask"></AddTaskForm>
 </template>
 
 <script>
@@ -30,8 +30,10 @@ export default {
 
   setup () {
     const store = useStore();
-    const taskList = computed(() => store.state.taskList);
+    const allTasks = computed(() => store.state.taskList);
+    const taskList = computed(() => allTasks.value.filter(task => !(task.isSubtask === true)));
     const openForm = ref(false);
+    const openFormSubTask = ref(null);
 
     const activeTasks = computed(() => {
       return taskList.value.filter((task) => task.archived !== true) 
@@ -41,16 +43,23 @@ export default {
       return taskList.value.filter((task) => task.archived === true);
     });
 
-    function handleAddSubTask() {
+    function handleAddTask() {
+      openFormSubTask.value = null;
+      openForm.value = true;      
+    }
+
+    function handleAddSubTask(data) {
+      openFormSubTask.value = data;
       openForm.value = true;
     }
 
     return {
-      taskList,
       openForm,
       activeTasks,
       doneTasks,
+      handleAddTask,
       handleAddSubTask,
+      openFormSubTask,
     }
   }
 }

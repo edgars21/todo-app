@@ -13,24 +13,7 @@ const initTestTasks = [
         "subTitle" : "Sub title task 2 test",
         "notes": "Notes task 2 test",
         "priority": 2,
-        "subtasks": [
-            {
-                "id": "4",
-                "title" : "First subtask title",
-                "subTitle" : "First subtask subtitle",
-                "notes": "First subtask notes",
-                "priority": 2,
-                "archived": null,
-            },
-            {
-                "id": "5",
-                "title" : "Second subtask title",
-                "subTitle" : "Second subtask subtitle",
-                "notes": "Second subtask notes",
-                "priority": 1,
-                "archived": null,
-            },                         
-        ],
+        "subtasks": ["4", "5"],
         "archived": null,
     },
     {
@@ -40,11 +23,32 @@ const initTestTasks = [
         "notes": "Notes task 3 test",
         "priority": 3,
         "archived": true,
-    }        
+    },
+    {
+        "id": "4",
+        "isSubtask": true,
+        "title" : "First subtask title",
+        "subTitle" : "First subtask subtitle",
+        "notes": "First subtask notes",
+        "priority": 2,
+        "archived": null,
+    },
+    {
+        "id": "5",
+        "isSubtask": true,
+        "title" : "Second subtask title",
+        "subTitle" : "Second subtask subtitle",
+        "notes": "Second subtask notes",
+        "priority": 1,
+        "archived": true,
+    },           
 ]
 
 export default function(store) {
     initTestTasks.forEach(task => {
-        store.commit('addTask', task);
+        const data = {
+            task: task
+        }
+        store.commit('addTask', data);
     })
 }

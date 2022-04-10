@@ -27,25 +27,25 @@
         <div class="EditSingleTask__subTasks">
             <div class="SubTasks">
                 <div v-if="taskData.subtasks && taskData.subtasks.length" class="SubTasks__list">
-                    <div v-for="subTask in taskData.subtasks" :key="subTask.id" class="SubTasks__editSingleTask">
+                    <div v-for="subTask in subTasks" :key="subTask.id" class="SubTasks__editSingleTask">
                         <SingleSubTask :task-data="subTask"></SingleSubTask>
                     </div>    
                 </div>
-                <button class="SubTasks__addBt" @click="$emit('addSubTask')">Add sub task</button>
-            </div>
+                <button class="SubTasks__addBt" @click="$emit('addSubTask', taskData.id)">Add sub task</button>
+            </div>            
         </div>
         <div class="EditSingleTask__actions">
             <div class="EditSingleTask__btWrap">
             <button class="EditSingleTask__bt EditSingleTask__btDelete" @click="handleDelete">Delete</button> 
             <button class="EditSingleTask__bt EditSingleTask__btCancel" @click="$emit('closeEdit')">Cancel</button>
-            <button class="EditSingleTask__bt EditSingleTask__btSave" @click="$emit('addSubTask')">Save</button>
+            <button class="EditSingleTask__bt EditSingleTask__btSave" @click="handleUpdateTask">Save</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useStore } from 'vuex'
 import PrioritySelector from './PrioritySelector';
 import SingleSubTask from './SingleSubTask'
@@ -60,6 +60,8 @@ export default {
 
     setup(props, context) {
         const store = useStore();
+        const allTasks = computed(() => store.state.taskList);
+        const subTasks = computed(() => allTasks.value.filter(task => props.taskData.subtasks.includes(task.id)))
         const editData = ref({
                 "title" : props.taskData.title,
                 "subTitle" : props.taskData.subTitle,
@@ -106,6 +108,7 @@ export default {
             handleEditMode,
             editData,
             handleUpdateTask,
+            subTasks,
         }
     }
 }
@@ -264,7 +267,7 @@ export default {
 
 .EditSingleTask__title {
     position: relative;
-    padding: 5px 5px;
+    padding: 5px 0;
     box-sizing: border-box;
     min-height: 28px;
     margin-right: 10px;

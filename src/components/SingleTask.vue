@@ -1,7 +1,7 @@
 <template>
     <div class="SingleTask" :class="{isDone: taskData.archived, isEditing: taskExpanded}">
         <div class="SingleTask__heading" @click="handleExpandTitle">
-            <div @click="handleDoneTask" class="SingleTask__done"></div>
+            <div @click.self="handleDoneTask" class="SingleTask__done"></div>
             <div class="SingleTask__title">{{ taskData.title }}</div>
             <div class="SingleTask__priority">
                 <template v-if="taskData.priority">
@@ -11,7 +11,7 @@
             </div>
         </div> 
         <template v-if="taskExpanded">
-            <EditTask @addSubTask="$emit('addSubTask')" @closeEdit="taskExpanded = false" :task-data="taskData"></EditTask>
+            <EditTask @addSubTask="(data) => $emit('addSubTask', data) " @closeEdit="taskExpanded = false" :task-data="taskData"></EditTask>
         </template>
     </div>
 </template>
@@ -40,7 +40,8 @@ export default {
             }
         }
 
-        function handleDoneTask() {
+        function handleDoneTask(e) {
+            e.stopPropagation();
             if (props.taskData.archived === true) {
                 store.commit('unArchiveTask', props.taskData);
             } else {

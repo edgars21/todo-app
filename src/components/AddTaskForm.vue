@@ -63,6 +63,7 @@ export default {
 
     props: [
         "is-open",
+        "sub-task"
     ],
 
     setup(props, context) {
@@ -71,6 +72,7 @@ export default {
         const showClass = ref(false);
         const formData = ref({
             "title" : null,
+            "isSubtask": props.subTask ? true : null,
             "subTitle" : null,
             "notes": null,
             "priority": 1,
@@ -78,8 +80,19 @@ export default {
 
 
         function handleSubmit() {
-            formData.value.id = uuidv4();
-            store.commit('addTask', formData.value);
+            const data = {
+                flags: {},
+                task: formData.value
+            }            
+            
+            data.task.id = uuidv4();
+            
+            if (props.subTask) {
+                data.task.isSubtask = true;
+                data.flags.subtask = props.subTask;
+            }
+
+            store.commit('addTask', data);
         }
 
         function handleCloseFromOutside() {

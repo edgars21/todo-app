@@ -7,8 +7,19 @@ const store = createStore({
     }
   },
   mutations: {
-    addTask(state, task) {
+    addTask(state, data) {
+      const subTask = data.flags?.subtask;
+      const task = data.task;
+
       state.taskList.push(task);
+
+      if (subTask) {
+        const parentTask = state.taskList.find(task => task.id === subTask);
+        console.log(parentTask)
+        if (!parentTask) return;
+        if (!parentTask.subtasks) parentTask.subtasks = [];
+        parentTask.subtasks.push(task.id);
+      }
     },
 
     removeTask(state, task) {
