@@ -54,6 +54,7 @@
 import { ref, watch } from "vue";
 import { useStore } from 'vuex'
 import PrioritySelector from './PrioritySelector';
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
     components: {
@@ -77,6 +78,7 @@ export default {
 
 
         function handleSubmit() {
+            formData.value.id = uuidv4();
             store.commit('addTask', formData.value);
         }
 

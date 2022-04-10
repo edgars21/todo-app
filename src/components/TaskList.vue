@@ -1,6 +1,6 @@
 <template>
     <div class="TaskList">
-      <div v-for="(task, idx) in activeTasks" :key="idx" class="TaskList__singleTask">
+      <div v-for="task in activeTasks" :key="task.id" class="TaskList__singleTask">
         <SingleTask :task-data="task"></SingleTask>      
       </div>
     </div>
@@ -9,7 +9,7 @@
     </div>
     <div class="DoneTaskList">
       <h2>Done tasks:</h2>
-      <div v-for="(task, idx) in doneTasks" :key="idx" class="DoneTaskList__singleTask">
+      <div v-for="task in doneTasks" :key="task.id" class="DoneTaskList__singleTask">
         <SingleTask :task-data="task"></SingleTask>      
       </div>
     </div>    
@@ -36,7 +36,8 @@ export default {
       return taskList.value.filter((task) => task.archived !== true) 
     });
     const doneTasks = computed(() => {
-      return taskList.value.filter((task) => task.archived === true) 
+      console.log(taskList.value.filter((task) => task.archived === true))
+      return taskList.value.filter((task) => task.archived === true);
     });    
 
     return {

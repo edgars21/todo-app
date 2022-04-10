@@ -26,7 +26,21 @@ const store = createStore({
     
     unArchiveTask(state, task) {
       task.archived = null;
-    }      
+    },
+    
+    updateTask(state, data) {
+      const task = state.taskList.find(task => task == data.oldData);
+      if (task) {
+        console.log(data)
+        console.log('changing')
+        console.log(data.newData)
+        task.title = data.newData.title
+        task.subTitle = data.newData.subTitle
+        task.notes = data.newData.notes
+        task.priority = data.newData.priority      
+
+      }
+    }
   }
 })
 
