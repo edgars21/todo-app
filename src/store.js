@@ -1,7 +1,5 @@
 import { createStore } from 'vuex'
 
-
-// Create a new store instance.
 const store = createStore({
   state () {
     return {
@@ -31,9 +29,6 @@ const store = createStore({
     updateTask(state, data) {
       const task = state.taskList.find(task => task == data.oldData);
       if (task) {
-        console.log(data)
-        console.log('changing')
-        console.log(data.newData)
         task.title = data.newData.title
         task.subTitle = data.newData.subTitle
         task.notes = data.newData.notes

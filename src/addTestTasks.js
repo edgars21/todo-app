@@ -13,6 +13,16 @@ const initTestTasks = [
         "subTitle" : "Sub title task 2 test",
         "notes": "Notes task 2 test",
         "priority": 2,
+        "subtasks": [
+            {
+                "id": "4",
+                "title" : "First subtask title",
+                "subTitle" : "First subtask subtitle",
+                "notes": "First subtask notes",
+                "priority": 2,
+                "archived": null,
+            },            
+        ],
         "archived": null,
     },
     {

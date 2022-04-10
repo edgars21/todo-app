@@ -1,7 +1,7 @@
 <template>
     <div class="TaskList">
       <div v-for="task in activeTasks" :key="task.id" class="TaskList__singleTask">
-        <SingleTask :task-data="task"></SingleTask>      
+        <SingleTask @addSubTask="handleAddSubTask" :task-data="task"></SingleTask>      
       </div>
     </div>
     <div class="AddNewTask">
@@ -32,19 +32,26 @@ export default {
     const store = useStore();
     const taskList = computed(() => store.state.taskList);
     const openForm = ref(false);
+
     const activeTasks = computed(() => {
       return taskList.value.filter((task) => task.archived !== true) 
     });
+
     const doneTasks = computed(() => {
       console.log(taskList.value.filter((task) => task.archived === true))
       return taskList.value.filter((task) => task.archived === true);
-    });    
+    });
+
+    function handleAddSubTask() {
+      openForm.value = true;
+    }
 
     return {
       taskList,
       openForm,
       activeTasks,
       doneTasks,
+      handleAddSubTask,
     }
   }
 }

@@ -1,49 +1,37 @@
 <template>
-    <div class="SingleTask" :class="{isShowFull: taskExpanded, isDone: taskData.archived, editMode: taskExpanded}">
-        <div class="SingleTask__visible">
-            <div class="SingleTask__heading" @click="handleExpandTitle">
-                <div @click="handleDoneTask" class="SingleTask__done"></div>
-                <div class="SingleTask__title" @click="handleEditMode">
-                    <div class="SingleTask__titlePreview">{{ editData.title }}</div>
-                    <div class="SingleTask__titleEdit">
-                        <input class="SingleTask__titleEditInput" v-model="editData.title" />
+    <div class="SingleSubTask" :class="{isShowFull: taskExpanded, isDone: taskData.archived, editMode: taskExpanded}">
+        <div class="SingleSubTask__visible">
+            <div class="SingleSubTask__heading" @click="handleExpandTitle">
+                <div @click="handleDoneTask" class="SingleSubTask__done"></div>
+                <div class="SingleSubTask__title" @click="handleEditMode">
+                    <div class="SingleSubTask__titlePreview">{{ editData.title }}</div>
+                    <div class="SingleSubTask__titleEdit">
+                        <input class="SingleSubTask__titleEditInput" v-model="editData.title" />
                     </div>                    
                 </div>
-                <div class="SingleTask__priority">
+                <div class="SingleSubTask__priority">
                     <template v-if="editData.priority">
-                        <div class="SingleTask__priorityLabel">Priority:</div>
+                        <div class="SingleSubTask__priorityLabel">Priority:</div>
                         <PrioritySelector :selected-value="taskExpanded ? editData.priority : taskData.priority"></PrioritySelector>
                     </template>
                 </div>
             </div> 
         </div>
-        <div class="SingleTask__hidden">
-            <div @click="handleEditMode" class="SingleTask__subTitle">
-                <div class="SingleTask__subTitlePreview">{{ editData.subTitle }}</div>
-                <div class="SingleTask__subTitleEdit">
-                    <input class="SingleTask__subTitleEditInput" v-model="editData.subTitle" />
+        <div class="SingleSubTask__hidden">
+            <div @click="handleEditMode" class="SingleSubTask__subTitle">
+                <div class="SingleSubTask__subTitlePreview">{{ editData.subTitle }}</div>
+                <div class="SingleSubTask__subTitleEdit">
+                    <input class="SingleSubTask__subTitleEditInput" v-model="editData.subTitle" />
                 </div>
             </div>
-            <div class="SingleTask__notes">
-                <textarea class="SingleTask__notesInput" :value="editData.notes"></textarea>
+            <div class="SingleSubTask__notes">
+            <textarea class="SingleSubTask__notesInput" :value="editData.notes"></textarea>
             </div>
-
-            <div class="SingleTask__subTasks">
-                <div class="SubTasks">
-                    <div v-if="taskData.subtasks && taskData.subtasks.length" class="SubTasks__List">
-                        <div v-for="subTask in taskData.subtasks" :key="subTask.id" class="SubTasks__singleTask">
-                            <SingleSubTask :task-data="subTask"></SingleSubTask>
-                        </div>    
-                    </div>
-                    <button class="SubTasks__addBt" @click="handleAddSubTask">Add sub task</button>
-                </div>
-            </div>
-
-            <div class="SingleTask__actions">
-                <div class="SingleTask__btWrap">
-                <button class="SingleTask__bt SingleTask__btDelete" @click="handleDelete">Delete</button> 
-                <button class="SingleTask__bt SingleTask__btCancel" @click="taskExpanded = !taskExpanded">Cancel</button>
-                <button class="SingleTask__bt SingleTask__btSave" @click="handleUpdateTask">Save</button>
+            <div class="SingleSubTask__actions">
+                <div class="SingleSubTask__btWrap">
+                <button class="SingleSubTask__bt SingleSubTask__btDelete" @click="handleDelete">Delete</button> 
+                <button class="SingleSubTask__bt SingleSubTask__btCancel" @click="taskExpanded = !taskExpanded">Cancel</button>
+                <button class="SingleSubTask__bt SingleSubTask__btSave" @click="handleUpdateTask">Save</button>
                 </div>
             </div>
         </div>        
@@ -54,12 +42,10 @@
 import { ref, watch } from "vue";
 import { useStore } from 'vuex'
 import PrioritySelector from './PrioritySelector';
-import SingleSubTask from './SingleSubTask'
 
 export default {
     components: {
         PrioritySelector,
-        SingleSubTask
     },
 
     props: ["task-data"],
@@ -130,9 +116,7 @@ export default {
 
         watch(taskExpanded, () => {
             clearEditData();
-        })
-        
-        console.log(props.taskData)
+        }) 
 
         return {
             taskExpanded,
@@ -148,40 +132,39 @@ export default {
 }
 </script>
 
-
 <style>
-.SingleTask__heading {
+.SingleSubTask__heading {
     padding: 10px 10px;
 }
 
-.SingleTask__title {
+.SingleSubTask__title {
     padding-right: 20px;
     flex-grow: 1;
 }
 
-.SingleTask__heading:hover {
+.SingleSubTask__heading:hover {
     background-color: #fafafa;
     cursor: pointer;
 }
 
-.SingleTask__hidden {
+.SingleSubTask__hidden {
     padding: 5px 10px;
     display: none;
 }
 
-.SingleTask.isShowFull {
-    background-color: #f6f6f6;
+.SingleSubTask.isShowFull {
+    background-color: #ffffff;
 }
 
-.SingleTask.isShowFull .SingleTask__hidden {
+.SingleSubTask.isShowFull .SingleSubTask__hidden {
     display: block;
 }
 
-.SingleTask__notes {
+.SingleSubTask__notes {
     margin-top: 20px;
 }
 
-.SingleTask__notesInput {
+.SingleSubTask__notesInput {
     resize: none;
     width: 100%;
     height: 100px;
@@ -189,24 +172,24 @@ export default {
     padding: 5px 10px;
 }
 
-.SingleTask__actions {
+.SingleSubTask__actions {
     margin-top: 10px;
 }
 
-.SingleTask__btWrap {
+.SingleSubTask__btWrap {
     display: flex;
     margin: 0 -5px;
     justify-content: flex-end;
 }
 
-.SingleTask__bt {
+.SingleSubTask__bt {
     display: block;
     margin: 0 5px;
     padding: 5px 10px;
     cursor: pointer;
 }
 
-.SingleTask__btSave {
+.SingleSubTask__btSave {
     background-color: royalblue;
     color: #fff;
     border: 0;
@@ -214,7 +197,7 @@ export default {
     padding: 5px 20px;
 }
 
-.SingleTask__btDelete {
+.SingleSubTask__btDelete {
     background-color: transparent;
     color: red;
     border: 0;
@@ -222,28 +205,28 @@ export default {
     margin-right: auto;    
 }
 
-.SingleTask__btDelete:hover {
+.SingleSubTask__btDelete:hover {
     text-decoration: underline;
 }
 
-.SingleTask__btSave:hover {
+.SingleSubTask__btSave:hover {
     background-color: #3b5fcb;
 }
 
-.SingleTask__btSave:active {
+.SingleSubTask__btSave:active {
     background-color: #2e4a9e;
 }
 
-.SingleTask__heading {
+.SingleSubTask__heading {
     display: flex;
 }
 
-.SingleTask__priority {
+.SingleSubTask__priority {
     padding-top: 8px;
     position: relative;
 }
 
-.SingleTask__priorityLabel {
+.SingleSubTask__priorityLabel {
     visibility: hidden;
     position: absolute;
     top: 0;
@@ -253,11 +236,11 @@ export default {
     transform: translateY(-60%);
 }
 
-.SingleTask.isShowFull .SingleTask__priorityLabel {
+.SingleSubTask.isShowFull .SingleSubTask__priorityLabel {
      visibility: visible;
 }
 
-.SingleTask__done {
+.SingleSubTask__done {
     width: 15px;
     height: 15px;
     border: 1px solid gray;
@@ -269,38 +252,38 @@ export default {
     align-items: center;
 }
 
-.SingleTask__done:hover {
+.SingleSubTask__done:hover {
     border-color: #9FC088;
 }
 
-.SingleTask.isDone .SingleTask__done {
+.SingleSubTask.isDone .SingleSubTask__done {
     background-color: #9FC088;
 }
 
-.SingleTask.isDone .SingleTask__done::after {
+.SingleSubTask.isDone .SingleSubTask__done::after {
     content: "✓";
     display: block;
     color: #ffffff;
     font-size: 12px;
 }
 
-.SingleTask.isDone .SingleTask__title {
+.SingleSubTask.isDone .SingleSubTask__title {
     text-decoration: line-through;
     opacity: 0.8;
 }
 
-.SingleTask__subTitle {
+.SingleSubTask__subTitle {
     position: relative;
     padding: 5px 5px;
     box-sizing: border-box;
     min-height: 28px;
 }
 
-.SingleTask__subTitle:hover {
+.SingleSubTask__subTitle:hover {
     cursor: pointer;
 }
 
-.SingleTask__subTitleEdit {
+.SingleSubTask__subTitleEdit {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -308,7 +291,7 @@ export default {
     left: 0;
 }
 
-.SingleTask__subTitleEditInput {
+.SingleSubTask__subTitleEditInput {
     display: none;
     width: 100%;
     height: 100%;
@@ -316,11 +299,11 @@ export default {
     padding: 5px 5px;
 }
 
-.SingleTask__subTitleEditInput.isVisible {
+.SingleSubTask__subTitleEditInput.isVisible {
     display: block;
 }
 
-.SingleTask__title {
+.SingleSubTask__title {
     position: relative;
     padding: 5px 5px;
     box-sizing: border-box;
@@ -328,7 +311,7 @@ export default {
     margin-right: 10px;
 }
 
-.SingleTask__titleEdit {
+.SingleSubTask__titleEdit {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -336,7 +319,7 @@ export default {
     left: 0;
 }
 
-.SingleTask__titleEditInput {
+.SingleSubTask__titleEditInput {
     display: none;
     width: 100%;
     height: 100%;
@@ -344,11 +327,7 @@ export default {
     padding: 5px 5px;
 }
 
-.SingleTask__titleEditInput.isVisible {
+.SingleSubTask__titleEditInput.isVisible {
     display: block;
-}
-
-.SubTasks__List {
-    margin: 20px 0;
 }
 </style>
