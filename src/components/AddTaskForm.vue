@@ -13,7 +13,7 @@
                             </div>
                             <div class="AddTaskForm__priority">
                                 <div class="AddTaskForm__priorityLabel">Priority:</div>
-                                <PrioritySelector
+                                <PrioritySelector v-model="formData.priority"
                                 ></PrioritySelector>
                             </div>
                         </div>
@@ -30,14 +30,14 @@
 
                         <div class="AddTaskForm__actions">
                             <div class="AddTaskForm__btWrap">
-                            <button
+                            <button @click="handleCloseFromOutside"
                                 type="button"
                                 class="AddTaskForm__bt AddTaskForm__btCancel"
-                                @click="taskExpanded = !taskExpanded"
                             >
                                 Cancel
                             </button>
-                            <button type="submit" class="AddTaskForm__bt AddTaskForm__btSave">
+                            <button @click="handleSave"
+                                type="submit" class="AddTaskForm__bt AddTaskForm__btSave">
                                 Save
                             </button>
                             </div>
@@ -72,7 +72,7 @@ export default {
             "title" : null,
             "subTitle" : null,
             "notes": null,
-            "priority": null
+            "priority": 1,
         });
 
 
@@ -84,7 +84,21 @@ export default {
             context.emit('closed');
         }
 
+        function handleSave() {
+            handleCloseFromOutside()
+        }
+
+        function clearFields() {
+            formData.value = {
+                "title" : null,
+                "subTitle" : null,
+                "notes": null,
+                "priority": 1,
+            }            
+        }
+
         async function open() {
+            clearFields();
             openClass.value = true;
             await new Promise((resolve) => {
                 setTimeout(() => {resolve()}, 0);
@@ -114,6 +128,7 @@ export default {
             openClass,
             showClass,
             handleCloseFromOutside,
+            handleSave,
         }
     }
 }
@@ -123,6 +138,12 @@ export default {
 <style>
 .AddTaskForm label, .AddTaskForm input {
     display: block;
+}
+
+.AddTaskForm {
+    background-color: #ffffff;
+    padding: 40px 30px;
+    border-radius: 10px;  
 }
 
 .AddTaskForm__notes {
@@ -213,6 +234,7 @@ export default {
 
 .AddTaskForm__actions {
     margin-top: 10px;
+    overflow: hidden;
 }
 
 .base-pop-up-modal {
@@ -257,6 +279,8 @@ export default {
     padding: 10px;
     max-width: 1110px;
     max-height: 100%;
+    min-width: min(600px, 100%);
+    box-sizing: border-box;    
 }
 
 .base-pop-up-modal__core-inner {

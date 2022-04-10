@@ -18,6 +18,7 @@
              </div>
              <div class="SingleTask__actions">
                  <div class="SingleTask__btWrap">
+                    <button class="SingleTask__bt SingleTask__btDelete" @click="handleDelete">Delete</button> 
                     <button class="SingleTask__bt SingleTask__btCancel" @click="taskExpanded = !taskExpanded">Cancel</button>
                     <button class="SingleTask__bt SingleTask__btSave">Save</button>
                  </div>
@@ -106,6 +107,18 @@ export default {
     border: 0;
     box-shadow: none;
     padding: 5px 20px;
+}
+
+.SingleTask__btDelete {
+    background-color: transparent;
+    color: red;
+    border: 0;
+    box-shadow: none;
+    margin-right: auto;    
+}
+
+.SingleTask__btDelete:hover {
+    text-decoration: underline;
 }
 
 .SingleTask__btSave:hover {

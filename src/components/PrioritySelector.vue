@@ -1,8 +1,8 @@
 <template>
-    <select>
+    <select :value="selectedValue ? selectedValue : modelValue" 
+        @input="$emit('update:modelValue', $event.target.value)">
         <template v-for="(op,idx) in options" :key="idx">
-            <option v-if="selectedValue == op.value" selected="selected" :value="op.value">{{ op.label }}</option>
-            <option v-else :value="op.value">{{ op.label }}</option>
+            <option :value="op.value">{{ op.label }}</option>
         </template>
     </select>
 </template>
@@ -12,9 +12,12 @@
 export default {
     props: [
         "selected-value",
+        "model-value",
     ],
 
     setup() {
+        console.log();
+
         const options = [
             {
                 label: "First",

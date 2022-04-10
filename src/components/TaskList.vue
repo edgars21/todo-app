@@ -4,7 +4,9 @@
         <SingleTask :task-data="task"></SingleTask>      
       </div>
     </div>
-    <button @click="openForm = true">Add new task</button>
+    <div class="AddNewTask">
+      <button class="AddNewTask__bt" @click="openForm = true">Add new task</button>
+    </div>
     <AddTaskForm @closed="openForm = false" :is-open="openForm"></AddTaskForm>
 </template>
 
@@ -34,7 +36,14 @@ export default {
 </script>
 
 <style>
-.TaskList__singleTask:not(:first-child) {
+.TaskList__singleTask:not(:last-child) {
   border-bottom: 1px solid #D3D3D3;
+}
+
+.AddNewTask__bt {
+  display: block;
+  margin-top: 20px;
+  padding: 5px 10px;
+  cursor: pointer;  
 }
 </style>
