@@ -17,10 +17,10 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
-import { useStore } from 'vuex'
-import SingleTask from './SingleTask'
-import AddTaskForm from './AddTaskForm'
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
+import SingleTask from './SingleTask';
+import AddTaskForm from './AddTaskForm';
 
 export default {
   components: {
@@ -38,7 +38,6 @@ export default {
     });
 
     const doneTasks = computed(() => {
-      console.log(taskList.value.filter((task) => task.archived === true))
       return taskList.value.filter((task) => task.archived === true);
     });
 
@@ -75,5 +74,9 @@ export default {
   margin-top: 20px;
   padding: 5px 10px;
   cursor: pointer;  
+}
+
+.DoneTaskList .SubTasks__addBt {
+  display: none;
 }
 </style>

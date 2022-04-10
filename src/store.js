@@ -29,6 +29,7 @@ const store = createStore({
     updateTask(state, data) {
       const task = state.taskList.find(task => task == data.oldData);
       if (task) {
+        console.log(data.newData.notes)
         task.title = data.newData.title
         task.subTitle = data.newData.subTitle
         task.notes = data.newData.notes
