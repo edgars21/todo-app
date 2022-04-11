@@ -5,6 +5,7 @@ const initTestTasks = [
         "subTitle" : "Sub title task 1 test",
         "notes": "Notes task 1 test",
         "priority": 1,
+        "subtasks": ["4", "5"],
         "archived": null,
     },
     {
@@ -13,7 +14,6 @@ const initTestTasks = [
         "subTitle" : "Sub title task 2 test",
         "notes": "Notes task 2 test",
         "priority": 2,
-        "subtasks": ["4", "5"],
         "archived": null,
     },
     {
@@ -44,11 +44,4 @@ const initTestTasks = [
     },           
 ]
 
-export default function(store) {
-    initTestTasks.forEach(task => {
-        const data = {
-            task: task
-        }
-        store.commit('addTask', data);
-    })
-}
+export default initTestTasks;

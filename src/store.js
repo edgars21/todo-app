@@ -1,4 +1,9 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
+import taskStorage from "./taskStorage.js";
+
+function saveTasks(state) {
+  taskStorage.setTasks(JSON.stringify(state.taskList));  
+}
 
 const store = createStore({
   state () {
@@ -20,6 +25,8 @@ const store = createStore({
         if (!parentTask.subtasks) parentTask.subtasks = [];
         parentTask.subtasks.push(task.id);
       }
+
+      saveTasks(state);
     },
 
     removeTask(state, task) {
@@ -27,14 +34,20 @@ const store = createStore({
       if (index !== -1) {
         state.taskList.splice(index, 1);
       }
+
+      saveTasks(state);
     },
     
     archiveTask(state, task) {
-        task.archived = true;
+      task.archived = true;
+
+      saveTasks(state);
     },
     
     unArchiveTask(state, task) {
       task.archived = null;
+
+      saveTasks(state);
     },
     
     updateTask(state, data) {
@@ -47,6 +60,8 @@ const store = createStore({
         task.priority = data.newData.priority      
 
       }
+
+      saveTasks(state);
     }
   }
 })

@@ -3,9 +3,20 @@
 </template>
 
 <script>
-import addTestTasks from "./addTestTasks";
+import taskStorage from "./taskStorage.js";
+import addTestTasks from "./addTestTasks.js";
 import { useStore } from 'vuex';
 import MainLayout from './components/MainLayout';
+
+
+function mountTasksToStore(tasks, store) {
+  tasks.forEach(task => {
+    const data = {
+      task: task
+    }
+    store.commit('addTask', data);
+  })
+}
 
 export default {
   components: {
@@ -14,7 +25,13 @@ export default {
   
   setup() {
     const store = useStore();
-    addTestTasks(store);
+    const storageTasksJSON = taskStorage.getTasks();
+
+    if (storageTasksJSON) {
+      mountTasksToStore(JSON.parse(storageTasksJSON), store);
+    } else {
+      mountTasksToStore(addTestTasks, store);
+    }
   }
 }
 </script>
